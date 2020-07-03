@@ -1,0 +1,30 @@
+{
+  "name": "ts-template",
+  "version": "1.0.0",
+  "description": "Typescript Template",
+  "main": "lib/cjs/index.js",
+  "typings": "lib/typings/index.d.ts",
+  "module": "lib/esm/index.js",
+  "scripts": {
+    "test": "ava",
+    "lint": "(tsc -p . --noEmit) && (eslint . --ext .ts) && (prettier --list-different src/*.ts)",
+    "prepare": "yarn build:clean ; yarn build:esm ; yarn build:cjs ; yarn build:typings",
+    "build:clean": "rm -rf lib",
+    "build:esm": "tsc --module es2015 --target es2018 --outDir lib/esm",
+    "build:cjs": "tsc --module commonjs --target es5 --outDir lib/cjs",
+    "build:typings": "tsc --declaration --outDir lib/typings --emitDeclarationOnly"
+  },
+  "repository": "https://github.com/archcorsair/ts-template",
+  "author": "Daniel S <archcorsair@gmail.com>",
+  "files": [
+    "lib/*"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 8"
+  },
+  "devDependencies": {
+    "eslint-config-steelbrain": "^9.0.1",
+    "typescript": "^3.9.6"
+  }
+}
