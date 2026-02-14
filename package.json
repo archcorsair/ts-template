@@ -1,30 +1,42 @@
 {
   "name": "ts-template",
-  "version": "1.0.0",
-  "description": "Typescript Template",
-  "main": "lib/cjs/index.js",
-  "typings": "lib/typings/index.d.ts",
-  "module": "lib/esm/index.js",
-  "scripts": {
-    "test": "ava",
-    "lint": "(tsc -p . --noEmit) && (eslint . --ext .ts) && (prettier --list-different src/*.ts)",
-    "prepare": "yarn build:clean ; yarn build:esm ; yarn build:cjs ; yarn build:typings",
-    "build:clean": "rm -rf lib",
-    "build:esm": "tsc --module es2015 --target es2018 --outDir lib/esm",
-    "build:cjs": "tsc --module commonjs --target es5 --outDir lib/cjs",
-    "build:typings": "tsc --declaration --outDir lib/typings --emitDeclarationOnly"
+  "version": "0.1.0",
+  "description": "Modern TypeScript template with Bun and Biome.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
   },
-  "repository": "https://github.com/archcorsair/ts-template",
-  "author": "Daniel S <archcorsair@gmail.com>",
   "files": [
-    "lib/*"
+    "dist"
   ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "bun run clean && bunx --bun tsc -p tsconfig.build.json && bunx --bun tsc -p tsconfig.build.cjs.json",
+    "typecheck": "bunx --bun tsc -p tsconfig.json --noEmit",
+    "lint": "bunx --bun biome check .",
+    "format": "bunx --bun biome format --write .",
+    "check": "bun run typecheck && bun run lint",
+    "test": "bun test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/archcorsair/ts-template"
+  },
+  "author": "Daniel S <archcorsair@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": ">= 8"
+    "node": ">=20"
   },
+  "packageManager": "bun@1.3.9",
   "devDependencies": {
-    "eslint-config-steelbrain": "^9.0.1",
-    "typescript": "^3.9.6"
+    "@biomejs/biome": "2.3.15",
+    "typescript": "5.9.3"
   }
 }
